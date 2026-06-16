@@ -1,0 +1,15 @@
+﻿namespace MoviesWatchListAPI.Models
+{
+    public class UserMovie
+    {
+        public int UserId { get; set; }
+        public User? User { get; set; }
+
+        public int MovieId { get; set; }
+        public Movie? Movie { get; set; }
+
+        public bool Watched { get; set; }
+        public float? Rating { get; set; }
+        public DateTime AddedOn { get; set; }
+    }
+}
