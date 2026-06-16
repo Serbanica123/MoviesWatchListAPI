@@ -25,6 +25,17 @@ namespace MoviesWatchListAPI.Services
             };
         }
 
+        public async Task<List<UserDetailsDto>> GetAllAsync()
+        {
+            var users = await repository.GetAllAsync();
+            return users.Select(user => new UserDetailsDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            }).ToList();
+        }
+
         public async Task<UserDetailsDto> AddUserAsync(UserPostDto user)
         {
             var newUser = new User

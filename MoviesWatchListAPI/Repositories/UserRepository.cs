@@ -12,6 +12,11 @@ namespace MoviesWatchListAPI.Repositories
             return await dbContext.Users.FindAsync(id);
         }
 
+        public async Task<List<User>> GetAllAsync()
+        {
+            return await dbContext.Users.ToListAsync();
+        }
+
         public async Task AddAsync(User user)
         {
             await dbContext.Users.AddAsync(user);
