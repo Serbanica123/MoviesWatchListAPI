@@ -13,6 +13,13 @@ namespace MoviesWatchListAPI.Repositories
                 .Select(um => um.Movie!)
                 .ToListAsync();
         }
+        public async Task<List<Movie>> GetWatchedMoviesByUserAsync(int userId)
+        {
+            return await dbContext.UserMovies
+                .Where(um => um.UserId == userId && um.Watched == true)
+                .Select(um => um.Movie!)
+                .ToListAsync();
+        }
 
         public async Task<List<Movie>> GetMoviesByUserNameAsync(string firstName, string lastName)
         {
@@ -26,6 +33,14 @@ namespace MoviesWatchListAPI.Repositories
         {
             return await dbContext.UserMovies
                 .Where(um => um.Movie!.Title == movieTitle && um.Rating.HasValue)
+                .Select(um => um.Rating!.Value)
+                .ToListAsync();
+        }
+
+        public async Task<List<float>> GetMovieRatingsByIdAsync(int movieId)
+        {
+            return await dbContext.UserMovies
+                .Where(um => um.Movie!.Id == movieId && um.Rating.HasValue)
                 .Select(um => um.Rating!.Value)
                 .ToListAsync();
         }

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MoviesWatchListAPI.Repositories;
+using MoviesWatchListAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,10 @@ builder.Services.AddDbContext<MoviesWatchListAPI.Data.AppDbContext>(options =>
 builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserMovieRepository, UserMovieRepository>();
+
+builder.Services.AddScoped<IMovieService, MovieService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserMovieService, UserMovieService>();
 
 var app = builder.Build();
 
