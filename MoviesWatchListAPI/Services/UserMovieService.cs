@@ -5,7 +5,7 @@ using MoviesWatchListAPI.Repositories;
 
 namespace MoviesWatchListAPI.Services
 {
-    public class UserMovieService(UserMovieRepository userMovieRepository, MovieRepository movieRepository) : IUserMovieService
+    public class UserMovieService(IUserMovieRepository userMovieRepository, IMovieRepository movieRepository) : IUserMovieService
     {
         public async Task<float> RatingsAverageAsync(int id, float? currentRating)
         {
@@ -30,6 +30,14 @@ namespace MoviesWatchListAPI.Services
             }
 
             var movieId = existingMovie.Id;
+
+            var existingEntry = await userMovieRepository.GetByUserAndMovieAsync(userId, movieId);
+            if (existingEntry is not null)
+                return await UpdateUserMovieAsync(userId, userMovie.Title!, new UserMovieUpdateDto
+                {
+                    Watched = userMovie.Watched,
+                    Rating = userMovie.Rating
+                });
 
             UserMovie addedMovie = new UserMovie
             {

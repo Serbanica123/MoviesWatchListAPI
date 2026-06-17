@@ -6,7 +6,7 @@ using MoviesWatchListAPI.Dtos;
 
 namespace MoviesWatchListAPI.Services
 {
-    public class UserService(UserRepository repository) : IUserService
+    public class UserService(IUserRepository repository) : IUserService
     {
         public async Task<UserDetailsDto?> GetByIdAsync(int id)
         {
