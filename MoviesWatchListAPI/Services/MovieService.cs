@@ -3,7 +3,7 @@ using MoviesWatchListAPI.Repositories;
 
 namespace MoviesWatchListAPI.Services
 {
-    public class MovieService(MovieRepository repository) : IMovieService
+    public class MovieService(IMovieRepository repository) : IMovieService
     {
         public async Task<List<MovieDetailsDto>> GetAllMoviesAsync()
         {
