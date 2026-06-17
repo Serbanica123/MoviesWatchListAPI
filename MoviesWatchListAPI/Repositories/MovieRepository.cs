@@ -6,6 +6,16 @@ namespace MoviesWatchListAPI.Repositories
 {
     public class MovieRepository(AppDbContext dbContext) : IMovieRepository
     {
+        public async Task AddAsync(Movie movie)
+        {
+            await dbContext.Movies.AddAsync(movie);
+        }
+
+        public void Update(Movie movie)
+        {
+            dbContext.Movies.Update(movie);
+        }
+
         public async Task<Movie?> GetByIdAsync(int id)
         {
             return await dbContext.Movies.FindAsync(id);
@@ -15,7 +25,13 @@ namespace MoviesWatchListAPI.Repositories
         {
             return await dbContext.Movies.FirstOrDefaultAsync(x => x.Title == title);
         }
-
+        public async Task<int?> GetIdByTitleAsync(string title)
+        {
+            var id = await dbContext.Movies.Where(m => m.Title == title)
+                .Select(m => m.Id)
+                .FirstOrDefaultAsync();
+            return (id == 0) ? null : id;
+        }
         public async Task<List<Movie>> GetMoviesAsync()
         {
             return await dbContext.Movies.ToListAsync();

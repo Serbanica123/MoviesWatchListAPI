@@ -5,7 +5,7 @@ namespace MoviesWatchListAPI.Dtos
     public class UserMoviePostDto
     {
         [Required]
-        [StringLength(50, MinimumLength =2)]
+        [StringLength(50, MinimumLength = 2)]
         public string? Title { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 2)]
