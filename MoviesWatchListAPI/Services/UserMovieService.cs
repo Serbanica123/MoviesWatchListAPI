@@ -1,6 +1,9 @@
-﻿namespace MoviesWatchListAPI.Services
+﻿using MoviesWatchListAPI.Repositories;
+
+namespace MoviesWatchListAPI.Services
 {
-    public interface UserMovieService
+    public class UserMovieService(UserMovieRepository userMovieRepository, MovieRepository movieRepository) : IUserMovieService
     {
+
     }
 }

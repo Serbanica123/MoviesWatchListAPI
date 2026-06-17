@@ -16,14 +16,23 @@ namespace MoviesWatchListAPI.Repositories
             return await dbContext.Movies.FirstOrDefaultAsync(x => x.Title == title);
         }
 
-        public void Update(Movie movie)
+        public async Task<List<Movie>> GetMoviesAsync()
         {
-            dbContext.Movies.Update(movie);
+            return await dbContext.Movies.ToListAsync();
         }
 
-        public void Delete(Movie movie)
+        public async Task<List<Movie>> GetMoviesByDescendingRatingAsync()
         {
-            dbContext.Movies.Remove(movie);
+            return await dbContext.Movies.OrderByDescending(m => m.AverageRating).ToListAsync();
+        }
+        public async Task<List<Movie>> GetMoviesByAscendingRatingAsync()
+        {
+            return await dbContext.Movies.OrderBy(m => m.AverageRating).ToListAsync();
+        }
+
+        public async Task<List<Movie>> GetMoviesByGenreAsync(string genre)
+        {
+            return await dbContext.Movies.Where(m => m.Genre == genre).ToListAsync();
         }
 
         public async Task SaveChangesAsync()

@@ -7,6 +7,6 @@ namespace MoviesWatchListAPI.Services
 {
     public interface IUserMovieService
     {
-
+        
     }
 }

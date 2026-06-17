@@ -6,8 +6,10 @@ namespace MoviesWatchListAPI.Repositories
     {
         Task<Movie?> GetByIdAsync(int id);
         Task<Movie?> GetByTitleAsync(string title);
-        void Update(Movie movie);
-        void Delete(Movie movie);
+        Task<List<Movie>> GetMoviesAsync();
+        Task<List<Movie>> GetMoviesByDescendingRatingAsync();
+        Task<List<Movie>> GetMoviesByAscendingRatingAsync();
+        Task<List<Movie>> GetMoviesByGenreAsync(string genre);
         Task SaveChangesAsync();
     }
 }
