@@ -15,14 +15,14 @@ namespace MoviesWatchListAPI.Services
 
         public async Task<UserMovieDetailsDto?> AddUserMovieAsync(int userId, UserMoviePostDto userMovie)
         {
-            var existingMovie = await movieRepository.GetByTitleAsync(userMovie.Title!);
+            var existingMovie = await movieRepository.GetByTitleAsync(userMovie.Title);
 
             if (existingMovie is null)
             {
                 existingMovie = new Movie
                 {
-                    Title = userMovie.Title!,
-                    Genre = userMovie.Genre!
+                    Title = userMovie.Title,
+                    Genre = userMovie.Genre
                 };
 
                 await movieRepository.AddAsync(existingMovie);
@@ -33,7 +33,7 @@ namespace MoviesWatchListAPI.Services
 
             var existingEntry = await userMovieRepository.GetByUserAndMovieAsync(userId, movieId);
             if (existingEntry is not null)
-                return await UpdateUserMovieAsync(userId, userMovie.Title!, new UserMovieUpdateDto
+                return await UpdateUserMovieAsync(userId, userMovie.Title, new UserMovieUpdateDto
                 {
                     Watched = userMovie.Watched,
                     Rating = userMovie.Rating
