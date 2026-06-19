@@ -32,6 +32,7 @@ namespace MoviesWatchListAPI.Services
         public async Task<List<MovieDetailsDto>> GetMoviesByAscendingRatingAsync()
         {
             var ascendingMovies = await repository.GetMoviesByAscendingRatingAsync();
+            
             return ascendingMovies.Select(movie => new MovieDetailsDto
             {
                 Id = movie.Id,
@@ -39,6 +40,37 @@ namespace MoviesWatchListAPI.Services
                 Genre = movie.Genre,
                 AverageRating = movie.AverageRating
             }).ToList();
+        }
+
+        public async Task<List<MovieDetailsDto>> GetMoviesPageAsync(int page, int pageEntries)
+        {
+            var moviesList = await repository.GetMoviesPageListAsync(page, pageEntries);
+            
+            return moviesList.Select(movie => new MovieDetailsDto
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Genre = movie.Genre,
+                AverageRating = movie.AverageRating
+            }).ToList();
+        }
+
+        public async Task<List<MovieDetailsDto>> SortByGenreAndRatingAsync()
+        {
+            var sortedMovies = await repository.SortByGenreAndRatingAsync();
+
+            return sortedMovies.Select(movie => new MovieDetailsDto
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Genre = movie.Genre,
+                AverageRating = movie.AverageRating
+            }).ToList();
+        }
+
+        public async Task<List<string>> GetGenresAsync()
+        {
+            return await repository.GetGenresAsync();
         }
 
         public async Task<MovieDetailsDto?> GetMovieByIdAsync(int id)
@@ -65,6 +97,19 @@ namespace MoviesWatchListAPI.Services
                 Genre = foundMovie.Genre,
                 AverageRating = foundMovie.AverageRating
             };
+        }
+
+        public async Task<List<GenreStatsDto>> StatusPerGenreAsync()
+        {
+            var movies = await repository.GetMoviesAsync();
+
+            return movies.GroupBy(m => m.Genre).Select(g => new GenreStatsDto
+            {
+                Genre = g.Key,
+                MovieCount= g.Count(),
+                AverageRating = g.Average(m=> m.AverageRating)
+
+            }).ToList();
         }
     }
 }

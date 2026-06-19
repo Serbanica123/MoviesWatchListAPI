@@ -50,5 +50,37 @@ namespace MoviesWatchListAPI.Controllers
 
             return Ok(movie);
         }
+
+        [HttpGet("genres/ascending")]
+        public async Task<IActionResult> GetGenres()
+        {
+            var genres = await movieService.GetGenresAsync();
+            return Ok(genres);
+        }
+
+        [HttpGet ("/movies/{page}/{entries}")]
+
+        public async Task<IActionResult> GetMoviesPage(int page, int entries)
+        {
+            var movies = await movieService.GetMoviesPageAsync(page, entries);
+            return Ok(movies);
+        }
+
+        [HttpGet ("/movies/sorted/genre/rating")]
+
+        public async Task<IActionResult> SortedByGenreRating()
+        {
+            var sortedMovies = await movieService.SortByGenreAndRatingAsync();
+
+            return Ok(sortedMovies);
+        }
+
+        [HttpGet ("/movies/genre-stats")]
+        public async Task<IActionResult> GetGenreStats()
+        {
+            var genreStats = await movieService.StatusPerGenreAsync();
+
+            return Ok(genreStats);
+        }
     }
 }

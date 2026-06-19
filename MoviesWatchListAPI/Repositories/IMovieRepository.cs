@@ -14,6 +14,9 @@ namespace MoviesWatchListAPI.Repositories
         Task<List<Movie>> GetMoviesByDescendingRatingAsync();
         Task<List<Movie>> GetMoviesByAscendingRatingAsync();
         Task<List<Movie>> GetMoviesByGenreAsync(string genre);
+        Task<List<Movie>> GetMoviesPageListAsync(int page, int pageEntries);
+        Task<List<Movie>> SortByGenreAndRatingAsync();
+        Task<List<string>> GetGenresAsync();
         Task SaveChangesAsync();
     }
 }

@@ -51,6 +51,28 @@ namespace MoviesWatchListAPI.Repositories
             return await dbContext.Movies.Where(m => m.Genre == genre).ToListAsync();
         }
 
+        public async Task<List<Movie>> GetMoviesPageListAsync(int page, int pageEntries)
+        {
+            return await dbContext.Movies.Skip((page - 1) * pageEntries)
+                .Take(pageEntries)
+                .ToListAsync();
+        }
+
+        public async Task<List<Movie>> SortByGenreAndRatingAsync()
+        {
+            return await dbContext.Movies.OrderBy(m => m.Genre)
+                .ThenByDescending(m => m.AverageRating)
+                .ToListAsync();        
+        }
+
+        public async Task<List<string>> GetGenresAsync()
+        {
+            return await dbContext.Movies.Select(m => m.Genre)
+                .Distinct()
+                .OrderBy(g => g)
+                .ToListAsync();
+        }
+
         public async Task SaveChangesAsync()
         {
             await dbContext.SaveChangesAsync();
