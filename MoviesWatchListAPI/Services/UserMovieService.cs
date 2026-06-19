@@ -1,7 +1,6 @@
-﻿using MoviesWatchListAPI.Dtos;
+using MoviesWatchListAPI.Dtos;
 using MoviesWatchListAPI.Models;
 using MoviesWatchListAPI.Repositories;
-
 
 namespace MoviesWatchListAPI.Services
 {
@@ -39,7 +38,7 @@ namespace MoviesWatchListAPI.Services
                     Rating = userMovie.Rating
                 });
 
-            UserMovie addedMovie = new UserMovie
+            var addedMovie = new UserMovie
             {
                 UserId = userId,
                 MovieId = movieId,
@@ -52,7 +51,6 @@ namespace MoviesWatchListAPI.Services
             await userMovieRepository.SaveChangesAsync();
 
             existingMovie.AverageRating = await RatingsAverageAsync(movieId, userMovie.Rating);
-
             movieRepository.Update(existingMovie);
             await movieRepository.SaveChangesAsync();
 
@@ -68,20 +66,18 @@ namespace MoviesWatchListAPI.Services
 
         public async Task<UserMovieDetailsDto?> UpdateUserMovieAsync(int userId, string movieTitle, UserMovieUpdateDto userMovie)
         {
-            var movieId= await movieRepository.GetIdByTitleAsync(movieTitle);
-
+            var movieId = await movieRepository.GetIdByTitleAsync(movieTitle);
             if (movieId is null)
                 return null;
 
             var userMovieEntry = await userMovieRepository.GetByUserAndMovieAsync(userId, movieId.Value);
-
             if (userMovieEntry is null)
                 return null;
 
             userMovieEntry.Watched = userMovie.Watched;
             userMovieEntry.Rating = userMovie.Rating;
 
-            userMovieRepository.Update(userMovieEntry); 
+            userMovieRepository.Update(userMovieEntry);
             await userMovieRepository.SaveChangesAsync();
 
             var existingMovie = await movieRepository.GetByIdAsync(movieId.Value);
@@ -102,14 +98,14 @@ namespace MoviesWatchListAPI.Services
 
         public async Task<List<MovieDetailsDto>> GetUserWatchedMoviesAsync(int userId)
         {
-            var moviesOfUser = await userMovieRepository.GetWatchedMoviesByUserAsync(userId);
+            var movies = await userMovieRepository.GetWatchedMoviesByUserAsync(userId);
 
-            return moviesOfUser.Select(movie => new MovieDetailsDto
+            return movies.Select(movie => new MovieDetailsDto
             {
                 Id = movie.Id,
-                Title=movie.Title,
-                Genre= movie.Genre,
-                AverageRating= movie.AverageRating
+                Title = movie.Title,
+                Genre = movie.Genre,
+                AverageRating = movie.AverageRating
             }).ToList();
         }
     }

@@ -1,8 +1,6 @@
-﻿using MoviesWatchListAPI.Models;
+using MoviesWatchListAPI.Models;
 using MoviesWatchListAPI.Repositories;
-using Microsoft.EntityFrameworkCore;
 using MoviesWatchListAPI.Dtos;
-
 
 namespace MoviesWatchListAPI.Services
 {
@@ -10,18 +8,15 @@ namespace MoviesWatchListAPI.Services
     {
         public async Task<UserDetailsDto?> GetByIdAsync(int id)
         {
-            var foundUser = await repository.GetByIdAsync(id);
-
-            if (foundUser is null)
-            {
+            var user = await repository.GetByIdAsync(id);
+            if (user is null)
                 return null;
-            }
 
             return new UserDetailsDto
             {
-                Id = foundUser.Id,
-                FirstName = foundUser.FirstName,
-                LastName = foundUser.LastName
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName
             };
         }
 
@@ -43,8 +38,10 @@ namespace MoviesWatchListAPI.Services
                 FirstName = user.FirstName,
                 LastName = user.LastName
             };
+
             await repository.AddAsync(newUser);
             await repository.SaveChangesAsync();
+
             return new UserDetailsDto
             {
                 Id = newUser.Id,
@@ -55,12 +52,11 @@ namespace MoviesWatchListAPI.Services
 
         public async Task<bool> DeleteUserAsync(int id)
         {
-            var foundUser = await repository.GetByIdAsync(id);
-            if (foundUser is null)
-            {
+            var user = await repository.GetByIdAsync(id);
+            if (user is null)
                 return false;
-            }
-            repository.Delete(foundUser);
+
+            repository.Delete(user);
             await repository.SaveChangesAsync();
             return true;
         }

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore;
 using MoviesWatchListAPI.Data;
 using MoviesWatchListAPI.Models;
 
@@ -21,6 +20,7 @@ namespace MoviesWatchListAPI.Repositories
         {
             await dbContext.Users.AddAsync(user);
         }
+
         public void Update(User user)
         {
             dbContext.Users.Update(user);
