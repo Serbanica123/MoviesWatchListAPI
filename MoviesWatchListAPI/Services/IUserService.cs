@@ -14,7 +14,7 @@ namespace MoviesWatchListAPI.Services
         Task<List<UserDetailsDto>> GetAllAsync();
 
         /// <summary>
-        /// Builds a <see cref="User"/> entity from the supplied DTO, persists it, then reads the DB-assigned ID.
+        /// Builds a <see cref="UserPostDto"/> entity from the supplied DTO, persists it, then reads the DB-assigned ID.
         /// The ID is only available after <c>SaveChanges</c> completes.
         /// </summary>
         /// <param name="user">First and last name of the new user.</param>

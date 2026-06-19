@@ -102,5 +102,13 @@ namespace MoviesWatchListAPI.Controllers
             var genreStats = await movieService.StatusPerGenreAsync();
             return Ok(genreStats);
         }
+
+        [HttpGet ("/movies/filter")]
+
+        public async Task<IActionResult> FilterMovies([FromQuery] string? genre, [FromQuery] float? minRating, [FromQuery] float? maxRating)
+        {
+            var filteredMovies = await movieService.FilterMoviesAsync(genre, minRating, maxRating);
+            return Ok(filteredMovies);
+        }
     }
 }

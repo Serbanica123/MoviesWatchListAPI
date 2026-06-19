@@ -58,7 +58,12 @@ namespace MoviesWatchListAPI.Repositories
         /// <summary>Projects the Genre column, deduplicates with <c>Distinct</c>, and sorts alphabetically.</summary>
         /// <returns>An alphabetically sorted list of distinct genre strings.</returns>
         Task<List<string>> GetGenresAsync();
-
+        /// <summary>Builds an <c>IQueryable</c> and conditionally chains <c>Where</c> clauses for each non-null parameter.</summary>
+        /// <param name="genre">Exact genre to filter by, or <c>null</c> to skip genre filtering.</param>
+        /// <param name="minRating">Inclusive lower bound on AverageRating, or <c>null</c> to skip.</param>
+        /// <param name="maxRating">Inclusive upper bound on AverageRating, or <c>null</c> to skip.</param>
+        /// <returns>A list of movies matching all provided filters.</returns>
+        Task<List<Movie>> FilterMoviesAsync(string? genre, float? minRating, float? maxRating);
         /// <summary>Persists all pending changes tracked by the EF Core context to the database.</summary>
         Task SaveChangesAsync();
     }

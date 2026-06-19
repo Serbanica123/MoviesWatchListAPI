@@ -87,6 +87,28 @@ namespace MoviesWatchListAPI.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<Movie>> FilterMoviesAsync(string? genre, float? minRating, float? maxRating)
+        {
+            var query= dbContext.Movies.AsQueryable();
+
+            if(genre is not null)
+            {
+                query = query.Where(m => m.Genre == genre);
+            }
+
+            if(minRating is not null)
+            {
+                query = query.Where(m => m.AverageRating >= minRating);
+            }
+
+            if(maxRating is not null)
+            {
+                query = query.Where(m => m.AverageRating <= maxRating);
+            }
+
+            return await query.ToListAsync();
+        }
+
         public async Task SaveChangesAsync()
         {
             await dbContext.SaveChangesAsync();

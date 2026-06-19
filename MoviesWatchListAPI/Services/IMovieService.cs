@@ -46,5 +46,12 @@ namespace MoviesWatchListAPI.Services
         /// <param name="title">Exact movie title to search for.</param>
         /// <returns>The movie as a DTO, or <c>null</c> if not found.</returns>
         Task<MovieDetailsDto?> GetMovieByTitleAsync(string title);
+
+        /// <summary>Applies up to three optional filters on the movie table — only the provided parameters narrow the query.</summary>
+        /// <param name="genre">Exact genre to filter by, or <c>null</c> to skip genre filtering.</param>
+        /// <param name="minRating">Inclusive lower bound on AverageRating, or <c>null</c> to skip.</param>
+        /// <param name="maxRating">Inclusive upper bound on AverageRating, or <c>null</c> to skip.</param>
+        /// <returns>A list of movies matching all provided filters.</returns>
+        Task<List<MovieDetailsDto>> FilterMoviesAsync(string? genre, float? minRating, float? maxRating);
     }
 }

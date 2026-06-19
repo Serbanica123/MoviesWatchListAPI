@@ -108,5 +108,18 @@ namespace MoviesWatchListAPI.Services
                 })
                 .ToList();
         }
+
+        public async Task<List<MovieDetailsDto>> FilterMoviesAsync(string? genre, float? minRating, float? maxRating)
+        {
+            var filteredMovies = await repository.FilterMoviesAsync(genre, minRating, maxRating);
+
+            return filteredMovies.Select(movie => new MovieDetailsDto
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Genre = movie.Genre,
+                AverageRating = movie.AverageRating
+            }).ToList();
+        }
     }
 }
