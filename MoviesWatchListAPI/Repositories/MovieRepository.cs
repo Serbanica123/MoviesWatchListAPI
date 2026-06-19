@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MoviesWatchListAPI.Data;
 using MoviesWatchListAPI.Models;
 
@@ -25,13 +25,17 @@ namespace MoviesWatchListAPI.Repositories
         {
             return await dbContext.Movies.FirstOrDefaultAsync(x => x.Title == title);
         }
+
         public async Task<int?> GetIdByTitleAsync(string title)
         {
-            var id = await dbContext.Movies.Where(m => m.Title == title)
+            var id = await dbContext.Movies
+                .Where(m => m.Title == title)
                 .Select(m => m.Id)
                 .FirstOrDefaultAsync();
+
             return (id == 0) ? null : id;
         }
+
         public async Task<List<Movie>> GetMoviesAsync()
         {
             return await dbContext.Movies.ToListAsync();
@@ -39,16 +43,70 @@ namespace MoviesWatchListAPI.Repositories
 
         public async Task<List<Movie>> GetMoviesByDescendingRatingAsync()
         {
-            return await dbContext.Movies.OrderByDescending(m => m.AverageRating).ToListAsync();
+            return await dbContext.Movies
+                .OrderByDescending(m => m.AverageRating)
+                .ToListAsync();
         }
+
         public async Task<List<Movie>> GetMoviesByAscendingRatingAsync()
         {
-            return await dbContext.Movies.OrderBy(m => m.AverageRating).ToListAsync();
+            return await dbContext.Movies
+                .OrderBy(m => m.AverageRating)
+                .ToListAsync();
         }
 
         public async Task<List<Movie>> GetMoviesByGenreAsync(string genre)
         {
-            return await dbContext.Movies.Where(m => m.Genre == genre).ToListAsync();
+            return await dbContext.Movies
+                .Where(m => m.Genre == genre)
+                .ToListAsync();
+        }
+
+        public async Task<List<Movie>> GetMoviesPageListAsync(int page, int pageEntries)
+        {
+            return await dbContext.Movies
+                .Skip((page - 1) * pageEntries)
+                .Take(pageEntries)
+                .ToListAsync();
+        }
+
+        public async Task<List<Movie>> SortByGenreAndRatingAsync()
+        {
+            return await dbContext.Movies
+                .OrderBy(m => m.Genre)
+                .ThenByDescending(m => m.AverageRating)
+                .ToListAsync();
+        }
+
+        public async Task<List<string>> GetGenresAsync()
+        {
+            return await dbContext.Movies
+                .Select(m => m.Genre)
+                .Distinct()
+                .OrderBy(g => g)
+                .ToListAsync();
+        }
+
+        public async Task<List<Movie>> FilterMoviesAsync(string? genre, float? minRating, float? maxRating)
+        {
+            var query= dbContext.Movies.AsQueryable();
+
+            if(genre is not null)
+            {
+                query = query.Where(m => m.Genre == genre);
+            }
+
+            if(minRating is not null)
+            {
+                query = query.Where(m => m.AverageRating >= minRating);
+            }
+
+            if(maxRating is not null)
+            {
+                query = query.Where(m => m.AverageRating <= maxRating);
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task SaveChangesAsync()

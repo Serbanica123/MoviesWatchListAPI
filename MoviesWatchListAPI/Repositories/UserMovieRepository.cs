@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MoviesWatchListAPI.Data;
 using MoviesWatchListAPI.Models;
 
@@ -13,6 +13,7 @@ namespace MoviesWatchListAPI.Repositories
                 .Select(um => um.Movie!)
                 .ToListAsync();
         }
+
         public async Task<List<Movie>> GetWatchedMoviesByUserAsync(int userId)
         {
             return await dbContext.UserMovies
@@ -24,7 +25,9 @@ namespace MoviesWatchListAPI.Repositories
         public async Task<List<Movie>> GetMoviesByUserNameAsync(string firstName, string lastName)
         {
             return await dbContext.UserMovies
-                .Where(um => um.User!.FirstName == firstName && um.User!.LastName == lastName && um.Movie != null)
+                .Where(um => um.User!.FirstName == firstName
+                          && um.User!.LastName == lastName
+                          && um.Movie != null)
                 .Select(um => um.Movie!)
                 .ToListAsync();
         }

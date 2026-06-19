@@ -24,4 +24,11 @@ namespace MoviesWatchListAPI.Dtos
     {
         public float AverageRating { get; set; }
     }
+
+    public class GenreStatsDto
+    {
+        public string Genre { get; set; } = string.Empty;
+        public int MovieCount { get; set; }
+        public float AverageRating { get; set; }
+    }
 }
