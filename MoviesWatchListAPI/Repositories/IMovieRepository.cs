@@ -1,4 +1,5 @@
 using MoviesWatchListAPI.Models;
+using MoviesWatchListAPI.Dtos;
 
 namespace MoviesWatchListAPI.Repositories
 {

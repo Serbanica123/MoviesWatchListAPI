@@ -6,7 +6,7 @@ namespace MoviesWatchListAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UsersController(IUserService userService) : ControllerBase
+    public class UsersController(IUserService userService, IUserMovieService userMovieService) : ControllerBase
     {
         /// <summary>Returns all users with no filtering or ordering.</summary>
         /// <response code="200">List of all users.</response>
@@ -55,6 +55,15 @@ namespace MoviesWatchListAPI.Controllers
                 return NotFound();
 
             return NoContent();
+        }
+
+        /// <summary>Returns all users who have rated at least one movie, ranked by their average rating given.</summary>
+        /// <response code="200">List of users with average ratings, ordered highest first.</response>
+        [HttpGet("top-raters")]
+        public async Task<IActionResult> GetTopRaters()
+        {
+            var topRaters = await userMovieService.GetTopRatersAsync();
+            return Ok(topRaters);
         }
     }
 }

@@ -1,3 +1,4 @@
+using MoviesWatchListAPI.Dtos;
 using MoviesWatchListAPI.Models;
 
 namespace MoviesWatchListAPI.Repositories
@@ -41,6 +42,10 @@ namespace MoviesWatchListAPI.Repositories
         /// <param name="userId">The user whose watched movies to retrieve.</param>
         /// <returns>A list of watched movies for the user.</returns>
         Task<List<Movie>> GetWatchedMoviesByUserAsync(int userId);
+
+        /// <summary>Groups rated watchlist entries by user via the <c>User</c> nav prop, averages the ratings per group, and sorts highest first.</summary>
+        /// <returns>A list of users with their average rating given, ordered descending.</returns>
+        Task<List<UserRatingStatsDto>> GetTopRatersAsync();
 
         /// <summary>Stages a new watchlist entry in the context (not yet persisted).</summary>
         Task AddAsync(UserMovie userMovie);

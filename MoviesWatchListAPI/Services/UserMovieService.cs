@@ -108,5 +108,10 @@ namespace MoviesWatchListAPI.Services
                 AverageRating = movie.AverageRating
             }).ToList();
         }
+
+        public async Task<List<UserRatingStatsDto>> GetTopRatersAsync()
+        {
+            return await userMovieRepository.GetTopRatersAsync();
+        }
     }
 }

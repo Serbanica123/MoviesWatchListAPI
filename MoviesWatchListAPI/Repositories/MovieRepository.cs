@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MoviesWatchListAPI.Data;
+using MoviesWatchListAPI.Dtos;
 using MoviesWatchListAPI.Models;
 
 namespace MoviesWatchListAPI.Repositories

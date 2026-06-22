@@ -27,5 +27,9 @@ namespace MoviesWatchListAPI.Services
         /// <param name="userId">The user whose watched movies to retrieve.</param>
         /// <returns>A list of watched movies as DTOs.</returns>
         Task<List<MovieDetailsDto>> GetUserWatchedMoviesAsync(int userId);
+
+        /// <summary>Delegates to the repository to aggregate ratings per user, returning results already sorted highest-first.</summary>
+        /// <returns>A list of users with their average rating given, ordered descending.</returns>
+        Task<List<UserRatingStatsDto>> GetTopRatersAsync();
     }
 }

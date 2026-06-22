@@ -103,8 +103,12 @@ namespace MoviesWatchListAPI.Controllers
             return Ok(genreStats);
         }
 
-        [HttpGet ("/movies/filter")]
-
+        /// <summary>Returns movies matching any combination of the provided filters — omit a parameter to skip that filter.</summary>
+        /// <param name="genre">Exact genre to filter by.</param>
+        /// <param name="minRating">Inclusive lower bound on average rating.</param>
+        /// <param name="maxRating">Inclusive upper bound on average rating.</param>
+        /// <response code="200">Filtered list of movies.</response>
+        [HttpGet("/movies/filter")]
         public async Task<IActionResult> FilterMovies([FromQuery] string? genre, [FromQuery] float? minRating, [FromQuery] float? maxRating)
         {
             var filteredMovies = await movieService.FilterMoviesAsync(genre, minRating, maxRating);

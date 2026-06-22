@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MoviesWatchListAPI.Data;
+using MoviesWatchListAPI.Dtos;
 using MoviesWatchListAPI.Models;
 
 namespace MoviesWatchListAPI.Repositories
@@ -45,6 +46,23 @@ namespace MoviesWatchListAPI.Repositories
             return await dbContext.UserMovies
                 .Where(um => um.Movie!.Id == movieId && um.Rating.HasValue)
                 .Select(um => um.Rating!.Value)
+                .ToListAsync();
+        }
+
+        public async Task<List<UserRatingStatsDto>> GetTopRatersAsync()
+        {
+            return await dbContext.UserMovies
+                .Where(um => um.Rating != null)
+                .GroupBy(um => new { um.UserId, um.User!.FirstName, um.User.LastName })
+                .Select(g => new UserRatingStatsDto
+                {
+                    Id = g.Key.UserId,
+                    FirstName = g.Key.FirstName,
+                    LastName = g.Key.LastName,
+                    AverageRatingGiven = g.Average(um => (float)um.Rating!)
+
+                })
+                .OrderByDescending(u => u.AverageRatingGiven)
                 .ToListAsync();
         }
 
