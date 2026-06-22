@@ -47,6 +47,11 @@ namespace MoviesWatchListAPI.Repositories
         /// <returns>A list of users with their average rating given, ordered descending.</returns>
         Task<List<UserRatingStatsDto>> GetTopRatersAsync();
 
+        /// <summary>Uses a <c>NOT IN</c> subquery to exclude movies already on the user's watchlist — the subquery stays as <c>IQueryable</c> so both sides compile into one SQL statement.</summary>
+        /// <param name="userId">The user to generate recommendations for.</param>
+        /// <returns>A list of movies not yet on the user's watchlist.</returns>
+        Task<List<Movie>> GetRecommendationsAsync(int userId);
+
         /// <summary>Stages a new watchlist entry in the context (not yet persisted).</summary>
         Task AddAsync(UserMovie userMovie);
 

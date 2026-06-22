@@ -56,5 +56,15 @@ namespace MoviesWatchListAPI.Controllers
             var movies = await userMovieService.GetUserWatchedMoviesAsync(userId);
             return Ok(movies);
         }
+
+        /// <summary>Returns movies not yet on the user's watchlist, using a <c>NOT IN</c> subquery against the full catalog.</summary>
+        /// <param name="userId">The user to generate recommendations for.</param>
+        /// <response code="200">List of movies not on the user's watchlist.</response>
+        [HttpGet("{userId}/recommendations")]
+        public async Task<IActionResult> GetRecommendations(int userId)
+        {
+            var recommendations = await userMovieService.GetRecommendationsAsync(userId);
+            return Ok(recommendations);
+        }
     }
 }

@@ -66,6 +66,16 @@ namespace MoviesWatchListAPI.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<Movie>> GetRecommendationsAsync(int UserId)
+        {
+            var userMovieIds = dbContext.UserMovies
+                .Where(um => um.UserId == UserId)
+                .Select(um => um.MovieId);
+            return await dbContext.Movies.Where(m => !userMovieIds
+                .Contains(m.Id))
+                .ToListAsync();
+        }
+
         public async Task<UserMovie?> GetByUserAndMovieAsync(int userId, int movieId)
         {
             return await dbContext.UserMovies

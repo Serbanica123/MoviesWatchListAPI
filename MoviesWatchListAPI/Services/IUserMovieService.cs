@@ -31,5 +31,10 @@ namespace MoviesWatchListAPI.Services
         /// <summary>Delegates to the repository to aggregate ratings per user, returning results already sorted highest-first.</summary>
         /// <returns>A list of users with their average rating given, ordered descending.</returns>
         Task<List<UserRatingStatsDto>> GetTopRatersAsync();
+
+        /// <summary>Delegates to the repository to find movies not on the user's watchlist, then maps each entity to a <see cref="MovieDetailsDto"/>.</summary>
+        /// <param name="userId">The user to generate recommendations for.</param>
+        /// <returns>A list of movies not yet on the user's watchlist.</returns>
+        Task<List<MovieDetailsDto>> GetRecommendationsAsync(int userId);
     }
 }

@@ -109,6 +109,21 @@ namespace MoviesWatchListAPI.Services
             }).ToList();
         }
 
+        public async Task<List<MovieDetailsDto>> GetRecommendationsAsync(int UserId)
+        {
+            var recommendations = await userMovieRepository.GetRecommendationsAsync(UserId);
+
+            return recommendations.Select(movie => new MovieDetailsDto
+            {
+
+                Id = movie.Id,
+                Title = movie.Title,
+                Genre = movie.Genre,
+                AverageRating = movie.AverageRating
+            }).OrderByDescending(m=> m.AverageRating).ToList(); 
+
+        }
+
         public async Task<List<UserRatingStatsDto>> GetTopRatersAsync()
         {
             return await userMovieRepository.GetTopRatersAsync();
